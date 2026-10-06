@@ -20,5 +20,5 @@ def send_telegram(settings: Settings, text: str) -> bool:
         resp.raise_for_status()
         return True
     except Exception as exc:  # noqa: BLE001
-        print(f"[telegram] envoi échoué : {exc}")
+        print(f"[telegram] envoi échoué : {str(exc).replace(token, '***')}")
         return False
