@@ -1,0 +1,16 @@
+# =========================================================================
+#  Accès sol aux aéroports (train/bus/navette) pour le coût PORTE-À-PORTE.
+#  Coûts/durées approximatifs et éditables. Clé = "VilleDépart->AEROPORT".
+# =========================================================================
+home_city: "Paris"
+
+ground_options:
+  "Paris->CDG": { mode: "RER B / train", cost_eur: 12, duration_min: 45 }
+  "Paris->ORY": { mode: "Orlybus / tram", cost_eur: 11, duration_min: 40 }
+  "Paris->BVA": { mode: "navette Beauvais", cost_eur: 17, duration_min: 80 }
+  "Paris->CRL": { mode: "Flixbus (Charleroi)", cost_eur: 20, duration_min: 210 }
+  "Paris->BRU": { mode: "TGV / Eurostar", cost_eur: 45, duration_min: 90 }
+  "Paris->BGY": { mode: "train+bus (Bergame)", cost_eur: 60, duration_min: 540 }
+
+# Valeur par défaut si une paire n'est pas listée
+default: { mode: "transport local", cost_eur: 15, duration_min: 60 }

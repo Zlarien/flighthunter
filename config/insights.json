@@ -1,0 +1,22 @@
+{
+  "_comment": "Généré par le workflow comores-real-economy (données Travelpayouts réelles). Édite/rafraîchis librement.",
+  "generated_for": "France -> Moroni (HAH), été 2026",
+  "origin_baselines_eur": {
+    "CDG": 1017, "ORY": 1394, "GVA": 1323, "BVA": 1460, "FRA": 1783, "BRU": 1861, "CRL": 2347
+  },
+  "booking_lead_days": { "min": 90, "max": 240 },
+  "high_season_months": [7, 8, 12],
+  "low_season_months": [9, 10, 11],
+  "advance_purchase_finding": "Les données réelles ne confirment PAS 'réserver plus tôt = moins cher'. Le vrai levier est SAISONNIER : creux en octobre (CDG ~1017 €) vs août ~1245 € (+18 %). Réserver tôt reste prudent (capacité limitée l'été) mais n'est pas prouvé par les prix.",
+  "real_savings_verdict": "Seule économie réelle, réservable et documentée : CDG, départ octobre 2026, ~1017 € AR Kenya Airways via Nairobi (1 escale, hors Abu Dhabi). Le 934 € Etihad via Abu Dhabi est un PIÈGE (hub exclu). Les promos 437-587 € ne sont confirmées par AUCUN cache réel.",
+  "best_routings": [
+    "Kenya Airways via Nairobi (NBO) — meilleur rapport prix/durée, 1 escale, hors Abu Dhabi",
+    "Ethiopian via Addis-Abeba (ADD) — alternative directe, tarifs proches",
+    "Turkish via Istanbul (IST) + correspondance — compétitif mais un cran au-dessus (à confirmer)"
+  ],
+  "avoid": [
+    "Abu Dhabi / Etihad (EY) — le 934 € CDG passe par un hub que vous vouliez éviter",
+    "Août et décembre (haute saison / fêtes, +18-25 %)",
+    "Promos 437-587 € non confirmées par le cache réel"
+  ]
+}

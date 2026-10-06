@@ -1,0 +1,109 @@
+# =========================================================================
+#  FlightHunter — Vos alertes. Chaque entrée est indépendante.
+#  Ajoutez-en autant que vous voulez. Tout est personnalisable.
+# =========================================================================
+alerts:
+  - name: "Comores été 2026 — le moins cher"
+    enabled: true
+
+    # Aéroports de départ candidats (l'outil compare tout et garde le moins cher)
+    origins: ["CDG", "ORY", "BVA"]
+    destination: "HAH"                 # Moroni (Comores)
+
+    # Fenêtre de la période à balayer (on teste toutes les combinaisons de dates)
+    depart_earliest: "2026-06-15"
+    depart_latest:   "2026-09-01"
+    return_earliest: "2026-06-25"
+    return_latest:   "2026-09-20"
+
+    stay:
+      min_nights: 10
+      max_nights: 60
+      maximize: true                   # à prix égal, privilégier le séjour le plus long
+
+    date_step_days: 3                  # granularité du balayage (plus petit = plus complet, plus lent)
+
+    max_price_eur: 800                 # seuil d'alerte (prix net porte-à-porte)
+    currency: "EUR"
+
+    # checked_required = bagage soute obligatoire | cabin_only | any (peu importe)
+    baggage: "any"
+
+    # Chaque astuce est activable/désactivable individuellement
+    techniques:
+      through_fare: true               # tarif classique en un billet
+      self_transfer: true              # billets séparés (souvent moins cher)
+      positioning: true                # rejoindre un hub bon marché puis long-courrier séparé
+      open_jaw: true                   # retour sur un aéroport différent de l'aller
+      ground_multimodal: true          # train/bus vers un aéroport moins cher (coût porte-à-porte)
+      hidden_city: false               # cabine seule uniquement ; ToS risqué
+      pos_currency_arbitrage: false    # comparer prix selon pays/devise du site (zone grise)
+      error_fares: true                # capter les erreurs de prix
+      free_stopover: true              # valoriser les escales-nuit offertes (Turkish/Ethiopian/Kenya)
+      extreme_multileg: true           # 🔥 chaînes extrêmes : train transfrontalier + vols low-cost + attente au hub
+
+    # Paramètres du moteur extrême (n'a d'effet que si extreme_multileg = true)
+    extreme:
+      max_flight_legs: 3               # nb max de vols enchaînés (billets séparés)
+      max_total_transit_hours: 60      # plafond du temps EN TRANSIT (hors attente délibérée)
+      min_layover_hours: 2.5           # marge mini entre 2 vols séparés
+      allow_cross_border_ground: true  # autoriser train/bus vers un autre pays (Bruxelles, Barcelone…)
+      hub_wait: { min_nights: 0, max_nights: 4 }   # attendre au hub le vol régional le moins cher
+      accommodation_eur_per_night: 30  # coût d'une nuit d'attente au hub (compté honnêtement)
+      baggage_eur_per_flight_leg: 45   # coût soute par segment si bagage exigé
+      date_samples: 6                  # nb de dates de départ testées
+
+    notify:
+      email: true
+      telegram: true
+
+  # --- Exemple d'une 2e alerte, désactivée. Dupliquez et adaptez. ---
+  - name: "Comores — vacances de la Toussaint (soute obligatoire)"
+    enabled: false
+    origins: ["CDG"]
+    destination: "HAH"
+    depart_earliest: "2026-10-17"
+    depart_latest:   "2026-10-25"
+    return_earliest: "2026-10-31"
+    return_latest:   "2026-11-05"
+    stay: { min_nights: 7, max_nights: 18, maximize: false }
+    date_step_days: 1
+    max_price_eur: 750
+    currency: "EUR"
+    baggage: "checked_required"
+    techniques: { through_fare: true, self_transfer: true, error_fares: true }
+    notify: { email: true, telegram: false }
+
+  # ===== Mini-alertes VACANCES UNIVERSITAIRES (désactivées ; activez au besoin) =====
+  # Séjours courts, budget serré, toutes les astuces activées.
+  - name: "Étudiant — Noël 2026"
+    enabled: false
+    origins: ["CDG", "ORY", "BVA"]
+    destination: "HAH"
+    depart_earliest: "2026-12-18"
+    depart_latest:   "2026-12-23"
+    return_earliest: "2027-01-02"
+    return_latest:   "2027-01-06"
+    stay: { min_nights: 10, max_nights: 19, maximize: true }
+    date_step_days: 1
+    max_price_eur: 750
+    baggage: "cabin_only"
+    techniques: { through_fare: true, self_transfer: true, positioning: true, open_jaw: true, ground_multimodal: true, error_fares: true, extreme_multileg: true }
+    extreme: { max_flight_legs: 3, allow_cross_border_ground: true, hub_wait: { min_nights: 0, max_nights: 2 } }
+    notify: { email: true, telegram: true }
+
+  - name: "Étudiant — Vacances de février 2027"
+    enabled: false
+    origins: ["CDG", "ORY", "BVA"]
+    destination: "HAH"
+    depart_earliest: "2027-02-06"
+    depart_latest:   "2027-02-14"
+    return_earliest: "2027-02-20"
+    return_latest:   "2027-03-01"
+    stay: { min_nights: 8, max_nights: 21, maximize: true }
+    date_step_days: 1
+    max_price_eur: 700
+    baggage: "cabin_only"
+    techniques: { through_fare: true, self_transfer: true, positioning: true, ground_multimodal: true, error_fares: true, extreme_multileg: true }
+    extreme: { max_flight_legs: 3, allow_cross_border_ground: true, hub_wait: { min_nights: 0, max_nights: 3 } }
+    notify: { email: true, telegram: true }

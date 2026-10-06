@@ -1,0 +1,48 @@
+# =========================================================================
+#  Règles de routage vers Moroni (HAH) — éditable.
+#  Plus d'exclusion dure par défaut : TOUT est accessible mais RISQUE-PONDÉRÉ.
+#  Le coût-risque (espérance de dépense liée au risque) s'ajoute au prix net.
+# =========================================================================
+
+allowed_hubs: ["NBO", "ADD", "IST", "RUN", "AUH", "DAR"]
+
+# Laisser vide = rien d'exclu en dur. Mettez un hub ici pour l'interdire totalement.
+excluded_hubs: []
+excluded_carriers: []
+
+# Indice compagnie -> hub principal (pour rattacher un profil de risque quand
+# l'API ne donne pas l'escale).
+carrier_hub_hint:
+  EY: AUH     # Etihad via Abu Dhabi
+  PW: DAR     # Precision Air (Tanzanie)
+  TC: DAR     # Air Tanzania
+
+# --- Profils de RISQUE par hub (espérance = probabilité × coût) ---
+# Chaque événement : prob (0-1) × cost_eur. Ajustez selon votre tolérance.
+risk_profiles:
+  AUH:
+    label: "Abu Dhabi (Etihad)"
+    events:
+      - { name: "retard/correspondance serrée", prob: 0.10, cost_eur: 90 }
+      - { name: "aléa géopolitique régional",    prob: 0.02, cost_eur: 200 }
+    note: "Accessible mais zone régionale sensible : marge de correspondance conseillée."
+  DAR:
+    label: "Tanzanie (Dar es Salaam / Precision Air)"
+    events:
+      - { name: "vol retardé/annulé faute de passagers (attente)", prob: 0.30, cost_eur: 150 }
+      - { name: "rebillet à payer si vous êtes pressé",            prob: 0.20, cost_eur: 280 }
+      - { name: "correspondance ratée (billets séparés)",          prob: 0.15, cost_eur: 220 }
+    note: "Precision Air peut retarder/annuler si trop peu de passagers ; si pressé, prévoir un rebillet. Ne PAS prendre en correspondance serrée."
+  # Risque sécurité générique (proxy sobre, éditable ; 0 pour l'ignorer).
+  # S'applique aux tronçons régionaux à faible fiabilité.
+  REGIONAL_SAFETY:
+    label: "Fiabilité tronçon régional"
+    events:
+      - { name: "annulation/retard tronçon régional", prob: 0.12, cost_eur: 120 }
+    note: "Tronçons régionaux Afrique de l'Est : ponctualité/fiabilité variables."
+
+# Règles de sécurité pour les billets séparés (self-transfer)
+self_transfer:
+  min_connection_hours_intl: 3.5
+  min_connection_hours_same_alliance: 2.5
+  warn_no_interline_protection: true

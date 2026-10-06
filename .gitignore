@@ -1,0 +1,56 @@
+# Secrets et configuration locale
+.env
+.env.*
+*.env
+!*.env.example
+config/secrets.env
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*credential*
+*secret*
+!*secret*.example
+*token*
+!*token*.example
+id_rsa
+id_ed25519
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+
+# Environnements virtuels
+.venv/
+venv/
+env/
+ENV/
+
+# Tests et outils
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Donnees et sorties d execution
+data/*.db
+data/*.db-journal
+data/*.sqlite
+data/*.sqlite3
+*.log
+exports/
+out/
+
+# OS et editeurs
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

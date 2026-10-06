@@ -1,0 +1,9 @@
+# FlightHunter — dépendances (MVP Phase 1)
+# L'app tourne en MODE DEMO sans aucune clé API.
+httpx>=0.27
+pydantic>=2.6
+pyyaml>=6.0
+python-dotenv>=1.0
+defusedxml>=0.7
+# Phase 4 (IA) — décommenter quand utilisé :
+# anthropic>=0.40

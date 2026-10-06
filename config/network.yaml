@@ -1,0 +1,52 @@
+# =========================================================================
+#  RÉSEAU pour le moteur de chaînes EXTRÊMES (multi-legs).
+#  Le moteur cherche le chemin le moins cher : maison -> (train transfrontalier)
+#  -> porte d'entrée -> vols low-cost -> hub -> (attente) -> Moroni (HAH).
+#  Tarifs "base" indicatifs en EUR, éditables. Le moteur ajoute saison + bruit.
+# =========================================================================
+
+home_city: "Paris"
+final: "HAH"
+staging_hubs: ["IST", "ADD", "NBO", "CAI"]
+
+# --- Accès sol (train/bus) domicile -> porte d'entrée (aéroport de départ) ---
+# cross_border=true => activé seulement si l'alerte autorise le sol transfrontalier
+ground_gateways:
+  CDG: { mode: "RER B",            cost_eur: 12, duration_min: 45,  cross_border: false }
+  ORY: { mode: "Orlybus",          cost_eur: 11, duration_min: 40,  cross_border: false }
+  BVA: { mode: "navette Beauvais", cost_eur: 17, duration_min: 80,  cross_border: false }
+  CRL: { mode: "Flixbus Charleroi",cost_eur: 20, duration_min: 210, cross_border: true }
+  BRU: { mode: "Eurostar",         cost_eur: 45, duration_min: 90,  cross_border: true }
+  BCN: { mode: "TGV Barcelone",    cost_eur: 55, duration_min: 390, cross_border: true }
+  FRA: { mode: "ICE Francfort",    cost_eur: 60, duration_min: 240, cross_border: true }
+  GVA: { mode: "TGV Lyria Genève", cost_eur: 40, duration_min: 200, cross_border: true }
+
+# --- Segments aériens : from -> [ {to, carrier, base, dur(min), lowcost, regional} ] ---
+# base = prix indicatif ALLER SIMPLE en EUR (le moteur double pour l'aller-retour).
+flights:
+  CDG: [ {to: IST, carrier: "AJet/Turkish", base: 140, dur: 210, lowcost: false} ]
+  ORY: [ {to: IST, carrier: "Pegasus",      base: 120, dur: 210, lowcost: true} ]
+  BVA: [ {to: IST, carrier: "Pegasus",      base:  80, dur: 210, lowcost: true} ]
+  CRL: [ {to: IST, carrier: "Pegasus",      base:  75, dur: 210, lowcost: true},
+         {to: CAI, carrier: "low-cost",     base: 115, dur: 270, lowcost: true} ]
+  BRU: [ {to: IST, carrier: "Pegasus",      base:  90, dur: 205, lowcost: true},
+         {to: ADD, carrier: "Ethiopian",    base: 300, dur: 430, lowcost: false} ]
+  BCN: [ {to: IST, carrier: "Pegasus",      base:  80, dur: 220, lowcost: true},
+         {to: CAI, carrier: "low-cost",     base: 105, dur: 240, lowcost: true} ]
+  FRA: [ {to: IST, carrier: "SunExpress",   base:  95, dur: 200, lowcost: true},
+         {to: ADD, carrier: "Ethiopian",    base: 290, dur: 400, lowcost: false} ]
+  GVA: [ {to: IST, carrier: "Pegasus",      base: 100, dur: 215, lowcost: true} ]
+  IST: [ {to: ADD, carrier: "Ethiopian/TK", base: 140, dur: 300, lowcost: false},
+         {to: NBO, carrier: "Turkish",      base: 155, dur: 330, lowcost: false},
+         {to: HAH, carrier: "Turkish",      base: 250, dur: 360, lowcost: false, regional: true} ]
+  CAI: [ {to: ADD, carrier: "Ethiopian",    base: 125, dur: 240, lowcost: false},
+         {to: NBO, carrier: "Kenya/EgyptAir",base: 150, dur: 270, lowcost: false} ]
+  ADD: [ {to: HAH, carrier: "Ethiopian",    base: 130, dur: 150, lowcost: false, regional: true} ]
+  NBO: [ {to: HAH, carrier: "Kenya Airways",base: 135, dur: 140, lowcost: false, regional: true} ]
+
+# --- Notes de transit / visa par nœud (affichées en avertissement) ---
+transit_notes:
+  IST: "Transit court généralement sans visa ; e-visa Turquie si vous sortez de l'aéroport."
+  CAI: "Égypte : visa requis si sortie de l'aéroport (attente longue = sortie)."
+  ADD: "Éthiopie : visa e-Visa/transit si sortie ; contrôle strict — vérifiez avant."
+  NBO: "Kenya : ETA électronique souvent exigée même en transit — vérifiez."
