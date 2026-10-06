@@ -1,5 +1,7 @@
 # FlightHunter 🛫
 
+<p align="center"><img src="docs/demo.png" width="90%"/></p>
+
 > **Statut : projet d'apprentissage en pause.** Le code fonctionne en mode démo, sans clé API. Pour l'essayer avec de vraies données, copier `config/secrets.env.example` en `config/secrets.env` et y mettre ses propres clés (ce fichier est ignoré par git).
 
 
